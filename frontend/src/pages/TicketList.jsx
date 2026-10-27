@@ -1,6 +1,11 @@
 import axios from "axios";
+ 
 
-function TicketList({ tickets, onTicketUpdated }) {
+function TicketList({
+  tickets,
+  onTicketUpdated,
+  onSelectTicket, 
+ }) {
 
   const updateStatus = async (ticketId, status) => {
     try {
@@ -33,6 +38,10 @@ function TicketList({ tickets, onTicketUpdated }) {
             <h3>
               #{ticket.id} - {ticket.title}
             </h3>
+
+            <button onClick={() => onSelectTicket(ticket.id)}>
+                View Details
+            </button>
 
             <p>{ticket.description}</p>
 

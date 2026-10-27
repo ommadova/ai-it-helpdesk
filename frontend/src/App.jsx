@@ -3,9 +3,11 @@ import axios from "axios";
 
 import CreateTicket from "./pages/CreateTicket";
 import TicketList from "./pages/TicketList";
+import TicketDetails from "./pages/TicketDetails";
 
 function App() {
   const [tickets, setTickets] = useState([]);
+  const [selectedTicketId, setSelectedTicketId] = useState(null);
 
   const loadTickets = async () => {
     try {
@@ -24,19 +26,29 @@ function App() {
   }, []);
 
   return (
-    <div>
-      <h1>AI-Powered IT Helpdesk</h1>
+  <div>
+    <h1>AI-Powered IT Helpdesk</h1>
 
-      <CreateTicket onTicketCreated={loadTickets} />
-
-      <hr />
-
-     <TicketList
-        tickets={tickets}
-        onTicketUpdated={loadTickets}
+    {selectedTicketId ? (
+      <TicketDetails
+        ticketId={selectedTicketId}
+        onBack={() => setSelectedTicketId(null)}
       />
-    </div>
-  );
+    ) : (
+      <>
+        <CreateTicket onTicketCreated={loadTickets} />
+
+        <hr />
+
+        <TicketList
+          tickets={tickets}
+          onTicketUpdated={loadTickets}
+          onSelectTicket={setSelectedTicketId}
+        />
+      </>
+    )}
+  </div>
+);
 }
 
 export default App;

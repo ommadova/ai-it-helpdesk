@@ -1,3 +1,4 @@
+from datetime import datetime
 from pydantic import BaseModel
 
 
@@ -17,6 +18,7 @@ class TicketResponse(BaseModel):
     category: str | None = None
     priority: str | None = None
     status: str
+    created_at: datetime
 
     class Config:
         from_attributes = True
