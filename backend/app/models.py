@@ -21,3 +21,11 @@ class Ticket(Base):
         DateTime,
         default=datetime.utcnow
     )
+
+class TicketActivity(Base):
+    __tablename__ = "ticket_activities"
+
+    id = Column(Integer, primary_key=True, index=True)
+    ticket_id = Column(Integer, nullable=False)
+    action = Column(String(255), nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow)

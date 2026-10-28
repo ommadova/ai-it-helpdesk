@@ -22,3 +22,12 @@ class TicketResponse(BaseModel):
 
     class Config:
         from_attributes = True
+
+class TicketActivityResponse(BaseModel):
+    id: int
+    ticket_id: int
+    action: str
+    created_at: datetime
+
+    class Config:
+        from_attributes = True

@@ -4,7 +4,8 @@ from sqlalchemy.orm import Session
 
 from . import models
 from .database import SessionLocal, engine
-from .schemas import TicketCreate, TicketResponse, TicketUpdate
+from .schemas import TicketCreate, TicketResponse, TicketUpdate,  TicketActivityResponse
+
 
 
 models.Base.metadata.create_all(bind=engine)
@@ -50,6 +51,14 @@ def create_ticket(
     db.add(new_ticket)
     db.commit()
     db.refresh(new_ticket)
+
+    activity = models.TicketActivity(
+        ticket_id=new_ticket.id,
+        action="Ticket created"
+    )
+
+    db.add(activity)
+    db.commit()
 
     return new_ticket
 
@@ -98,9 +107,37 @@ def update_ticket(
             detail="Ticket not found"
         )
 
+    old_status = ticket.status
+
     ticket.status = ticket_update.status
 
     db.commit()
     db.refresh(ticket)
 
+    if old_status != ticket.status:
+     activity = models.TicketActivity(
+        ticket_id=ticket.id,
+        action=f"Status changed from {old_status} to {ticket.status}"
+    )
+
+    db.add(activity)
+    db.commit()
+
     return ticket
+
+@app.get(
+    "/tickets/{ticket_id}/activities",
+    response_model=list[TicketActivityResponse]
+)
+def get_ticket_activities(
+    ticket_id: int,
+    db: Session = Depends(get_db)
+):
+    activities = (
+        db.query(models.TicketActivity)
+        .filter(models.TicketActivity.ticket_id == ticket_id)
+        .order_by(models.TicketActivity.created_at.asc())
+        .all()
+    )
+
+    return activities
