@@ -21,44 +21,48 @@ function TicketList({
       }
 
     } catch (error) {
-      console.error(error);
+      console.error("Error updating ticket:", error);
     }
   };
 
   return (
     <div>
-      <h2>Support Tickets</h2>
+      <h2 className="support-tickets-title"> Support Tickets</h2>
 
       {tickets.length === 0 ? (
         <p>No tickets yet.</p>
       ) : (
         tickets.map((ticket) => (
-          <div key={ticket.id}>
-
+          <div className="ticket-card" key={ticket.id}>
             <h3>
               #{ticket.id} - {ticket.title}
             </h3>
 
-            <button onClick={() => onSelectTicket(ticket.id)}>
-                View Details
-            </button>
-
             <p>{ticket.description}</p>
 
             <p>
-              <strong>Status:</strong> {ticket.status}
+              <strong>Status:</strong>{" "}
+              <span className="status-badge">
+                {ticket.status}
+              </span>
             </p>
 
             <select
               value={ticket.status}
-              onChange={(e) =>
-                updateStatus(ticket.id, e.target.value)
+              onChange={(event) =>
+                updateStatus(ticket.id, event.target.value)
               }
             >
               <option value="Open">Open</option>
-              <option value="In Progress">In Progress</option>
-              <option value="Resolved">Resolved</option>
-              <option value="Closed">Closed</option>
+              <option value="In Progress">
+                In Progress
+              </option>
+              <option value="Resolved">
+                Resolved
+              </option>
+              <option value="Closed">
+                Closed
+              </option>
             </select>
 
             <p>
@@ -71,11 +75,14 @@ function TicketList({
               {ticket.priority || "Not assigned yet"}
             </p>
 
-            <hr />
+            <button
+              onClick={() => onSelectTicket(ticket.id)}
+            >
+              View Details
+            </button>
           </div>
         ))
       )}
-
     </div>
   );
 }

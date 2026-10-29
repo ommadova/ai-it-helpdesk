@@ -23,13 +23,13 @@ function CreateTicket({ onTicketCreated }) {
 
       alert("Ticket created successfully.");
     } catch (error) {
-      console.error(error);
-      alert("Error creating ticket.");
+      console.error("Error creating ticket:",error);
+      alert("Could not create ticket.");
     }
   };
 
   return (
-    <div>
+    <div className="form-card">
       <h2>Create Support Ticket</h2>
 
       <form onSubmit={handleSubmit}>

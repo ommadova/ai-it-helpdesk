@@ -32,7 +32,7 @@ function TicketDetails({ ticketId, onBack }) {
   }
 
   return (
-    <div>
+    <div className="ticket-details">
       <button onClick={onBack}>
         Back to Tickets
       </button>
@@ -76,11 +76,13 @@ function TicketDetails({ ticketId, onBack }) {
         <p>No activity yet.</p>
       ) : (
         activities.map((activity) => (
-          <div key={activity.id}>
+          <div className="activity-item" key={activity.id}>
             <p>
               <strong>{activity.action}</strong>
               {" - "}
-              {new Date(activity.created_at).toLocaleString()}
+              {new Date(
+                activity.created_at
+              ).toLocaleString()}
             </p>
           </div>
         ))

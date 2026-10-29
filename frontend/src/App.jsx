@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import "./App.css";
 
 import CreateTicket from "./pages/CreateTicket";
 import TicketList from "./pages/TicketList";
@@ -17,7 +18,7 @@ function App() {
 
       setTickets(response.data);
     } catch (error) {
-      console.error(error);
+      console.error("Error loading tickets:", error);
     }
   };
 
@@ -25,30 +26,65 @@ function App() {
     loadTickets();
   }, []);
 
+  const totalTickets = tickets.length;
+
+  const openTickets = tickets.filter(
+    (ticket) => ticket.status === "Open"
+  ).length;
+
+  const inProgressTickets = tickets.filter(
+    (ticket) => ticket.status === "In Progress"
+  ).length;
+
+  const resolvedTickets = tickets.filter(
+    (ticket) => ticket.status === "Resolved"
+  ).length;
+
+
   return (
-  <div>
-    <h1>AI-Powered IT Helpdesk</h1>
+    <div>
+      <h1>AI-Powered IT Helpdesk</h1>
 
-    {selectedTicketId ? (
-      <TicketDetails
-        ticketId={selectedTicketId}
-        onBack={() => setSelectedTicketId(null)}
-      />
-    ) : (
-      <>
-        <CreateTicket onTicketCreated={loadTickets} />
-
-        <hr />
-
-        <TicketList
-          tickets={tickets}
-          onTicketUpdated={loadTickets}
-          onSelectTicket={setSelectedTicketId}
+      {selectedTicketId ? (
+        <TicketDetails
+          ticketId={selectedTicketId}
+          onBack={() => setSelectedTicketId(null)}
         />
-      </>
-    )}
-  </div>
-);
+      ) : (
+        <>
+          <div className="dashboard">
+            <div className="dashboard-card">
+              <h3>Total Tickets</h3>
+              <p>{totalTickets}</p>
+            </div>
+
+            <div className="dashboard-card">
+              <h3>Open</h3>
+              <p>{openTickets}</p>
+            </div>
+
+            <div className="dashboard-card">
+              <h3>In Progress</h3>
+              <p>{inProgressTickets}</p>
+            </div>
+
+            <div className="dashboard-card">
+              <h3>Resolved</h3>
+              <p>{resolvedTickets}</p>
+            </div>
+          </div>
+
+          <CreateTicket onTicketCreated={loadTickets} />
+
+          <TicketList
+            tickets={tickets}
+            onTicketUpdated={loadTickets}
+            onSelectTicket={setSelectedTicketId}
+          />
+        </>
+      )}
+    </div>
+  );
 }
 
 export default App;
