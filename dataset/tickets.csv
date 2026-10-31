@@ -1,0 +1,101 @@
+text,category
+"My Wi-Fi connection keeps dropping",Network
+"I cannot connect to the wireless network",Network
+"The internet is very slow on my laptop",Network
+"The office network is unavailable",Network
+"I cannot connect through ethernet",Network
+"The VPN connection keeps failing",Network
+"I cannot access websites from the office network",Network
+"My computer says no internet connection",Network
+"The wireless signal disappears frequently",Network
+"I cannot connect to the company VPN from home",Network
+"The network connection times out",Network
+"My laptop cannot get an IP address",Network
+"The router connection appears to be down",Network
+"I lose internet every few minutes",Network
+"The office Wi-Fi password is not working",Network
+"The network drive is not reachable",Network
+"I cannot connect to the shared network",Network
+"The VPN disconnects after a few minutes",Network
+"Internet works on other computers but not mine",Network
+"My ethernet adapter shows disconnected",Network
+"My keyboard stopped working",Hardware
+"My mouse is not responding",Hardware
+"My laptop will not power on",Hardware
+"My monitor shows a black screen",Hardware
+"My laptop battery drains very quickly",Hardware
+"My charger is not working",Hardware
+"My computer is overheating",Hardware
+"My webcam is not detected",Hardware
+"My laptop fan is very loud",Hardware
+"My USB port is not working",Hardware
+"The printer is not turning on",Hardware
+"My external monitor is not detected",Hardware
+"My computer makes a clicking noise",Hardware
+"The laptop screen is flickering",Hardware
+"My microphone is not working",Hardware
+"My headset is not detected",Hardware
+"The computer shuts down randomly",Hardware
+"My docking station is not working",Hardware
+"The laptop battery will not charge",Hardware
+"My second monitor is not displaying anything",Hardware
+"Microsoft Word crashes when I open it",Software
+"Excel will not start",Software
+"The application freezes after login",Software
+"My software installation failed",Software
+"Outlook keeps crashing",Software
+"The browser closes unexpectedly",Software
+"PowerPoint will not open",Software
+"The program shows an error message at startup",Software
+"The application is running very slowly",Software
+"I cannot install the latest update",Software
+"The software update keeps failing",Software
+"My PDF application will not open files",Software
+"Teams crashes during meetings",Software
+"The program stopped working after an update",Software
+"My browser extensions are not loading",Software
+"The application becomes unresponsive",Software
+"I cannot uninstall the software",Software
+"The software license is not being recognized",Software
+"My desktop application keeps freezing",Software
+"The program gives an unexpected error",Software
+"I forgot my account password",Account/Access
+"My account is locked",Account/Access
+"I cannot sign in to my work account",Account/Access
+"I need my password reset",Account/Access
+"My username is not being accepted",Account/Access
+"I cannot access the shared folder",Account/Access
+"I do not have permission to open this file",Account/Access
+"My account says access denied",Account/Access
+"I need access to a company application",Account/Access
+"I cannot log into the employee portal",Account/Access
+"My password expired",Account/Access
+"I am getting an invalid credentials message",Account/Access
+"I cannot access my email account",Account/Access
+"My account was disabled",Account/Access
+"I need permission to access a department folder",Account/Access
+"I cannot sign into Microsoft 365",Account/Access
+"My login keeps being rejected",Account/Access
+"I need access to the finance system",Account/Access
+"I lost access to a shared drive",Account/Access
+"I cannot authenticate with my work credentials",Account/Access
+"I received a suspicious email",Security
+"I think someone accessed my account",Security
+"I clicked a suspicious link",Security
+"My antivirus detected malware",Security
+"I received a phishing message",Security
+"There is unusual activity on my account",Security
+"I think my computer has a virus",Security
+"I received a fake password reset email",Security
+"My browser opened a suspicious website",Security
+"I found an unknown program installed on my computer",Security
+"I received a suspicious attachment",Security
+"My antivirus says a threat was detected",Security
+"I think my password was stolen",Security
+"I received a suspicious login notification",Security
+"My files may have been infected with malware",Security
+"I think my account has been compromised",Security
+"A suspicious popup appeared on my computer",Security
+"I accidentally entered my password on a suspicious website",Security
+"My computer is showing possible ransomware warnings",Security
+"I received an unexpected multi-factor authentication request",Security

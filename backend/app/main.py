@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 
 from . import models
 from .database import SessionLocal, engine
+from .ml_service import predict_category
 from .schemas import TicketCreate, TicketResponse, TicketUpdate,  TicketActivityResponse
 
 
@@ -43,21 +44,33 @@ def create_ticket(
     ticket: TicketCreate,
     db: Session = Depends(get_db)
 ):
+    predicted_category = predict_category(
+        ticket.title,
+        ticket.description
+    )
+
     new_ticket = models.Ticket(
         title=ticket.title,
-        description=ticket.description
+        description=ticket.description,
+        category=predicted_category
     )
 
     db.add(new_ticket)
     db.commit()
     db.refresh(new_ticket)
 
-    activity = models.TicketActivity(
+    created_activity = models.TicketActivity(
         ticket_id=new_ticket.id,
         action="Ticket created"
     )
 
-    db.add(activity)
+    classification_activity = models.TicketActivity(
+        ticket_id=new_ticket.id,
+        action=f"AI classified ticket as {predicted_category}"
+    )
+
+    db.add(created_activity)
+    db.add(classification_activity)
     db.commit()
 
     return new_ticket
