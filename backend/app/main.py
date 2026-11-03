@@ -2,9 +2,11 @@ from fastapi import Depends, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 
+
 from . import models
 from .database import SessionLocal, engine
 from .ml_service import predict_category
+from .priority_service import predict_priority
 from .schemas import TicketCreate, TicketResponse, TicketUpdate,  TicketActivityResponse
 
 
@@ -49,10 +51,16 @@ def create_ticket(
         ticket.description
     )
 
+    predicted_priority = predict_priority(
+    ticket.title,
+    ticket.description
+)
+
     new_ticket = models.Ticket(
         title=ticket.title,
         description=ticket.description,
-        category=predicted_category
+        category=predicted_category,
+        priority=predicted_priority
     )
 
     db.add(new_ticket)
@@ -69,8 +77,14 @@ def create_ticket(
         action=f"AI classified ticket as {predicted_category}"
     )
 
+    priority_activity = models.TicketActivity(
+        ticket_id=new_ticket.id,
+        action=f"Priority assigned as {predicted_priority}"
+    )
+
     db.add(created_activity)
     db.add(classification_activity)
+    db.add(priority_activity)
     db.commit()
 
     return new_ticket
