@@ -7,6 +7,7 @@ from . import models
 from .database import SessionLocal, engine
 from .ml_service import predict_category
 from .priority_service import predict_priority
+from .rag_service import retrieve_documents
 from .schemas import TicketCreate, TicketResponse, TicketUpdate,  TicketActivityResponse
 
 
@@ -168,3 +169,31 @@ def get_ticket_activities(
     )
 
     return activities
+
+
+@app.get("/tickets/{ticket_id}/suggest")
+def suggest_solution(
+    ticket_id: int,
+    db: Session = Depends(get_db)
+):
+    ticket = db.query(models.Ticket).filter(
+        models.Ticket.id == ticket_id
+    ).first()
+
+    if not ticket:
+        raise HTTPException(
+            status_code=404,
+            detail="Ticket not found"
+        )
+
+    documents = retrieve_documents(
+        ticket.title,
+        ticket.description,
+    )
+
+    return {
+        "ticket_id": ticket.id,
+        "category": ticket.category,
+        "priority": ticket.priority,
+        "retrieved_documents": documents,
+    }
