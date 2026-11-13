@@ -8,6 +8,7 @@ from .database import SessionLocal, engine
 from .ml_service import predict_category
 from .priority_service import predict_priority
 from .rag_service import retrieve_documents
+from .llm_service import generate_solution
 from .schemas import TicketCreate, TicketResponse, TicketUpdate,  TicketActivityResponse
 
 
@@ -172,13 +173,12 @@ def get_ticket_activities(
 
 
 @app.get("/tickets/{ticket_id}/suggest")
-def suggest_solution(
-    ticket_id: int,
-    db: Session = Depends(get_db)
-):
-    ticket = db.query(models.Ticket).filter(
-        models.Ticket.id == ticket_id
-    ).first()
+def suggest_solution(ticket_id: int, db: Session = Depends(get_db)):
+    ticket = (
+        db.query(models.Ticket)
+        .filter(models.Ticket.id == ticket_id)
+        .first()
+    )
 
     if not ticket:
         raise HTTPException(
@@ -188,12 +188,22 @@ def suggest_solution(
 
     documents = retrieve_documents(
         ticket.title,
-        ticket.description,
+        ticket.description
+    )
+
+    ai_result = generate_solution(
+        title=ticket.title,
+        description=ticket.description,
+        category=ticket.category,
+        priority=ticket.priority,
+        documents=documents,
     )
 
     return {
         "ticket_id": ticket.id,
         "category": ticket.category,
         "priority": ticket.priority,
+        "recommendation": ai_result["recommendation"],
+        "sources": ai_result["sources"],
         "retrieved_documents": documents,
     }
